@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Reader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="reader-container">
+        <header id="top-bar">
+            <button id="prev-btn" class="nav-btn">← Prev</button>
+            <div id="menu-wrapper">
+                <button id="settings-toggle">AA Settings</button>
+                <div id="settings-menu" class="hidden">
+                    <div class="setting-item">
+                        <label>Font Family</label>
+                        <select id="font-family">
+                            <option value="'Inter', sans-serif">Modern Sans</option>
+                            <option value="'Merriweather', serif">Classic Serif</option>
+                            <option value="'Courier New', monospace">Mono</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Font Size</label>
+                        <input type="range" id="font-size" min="14" max="32" value="20">
+                    </div>
+                    <div class="setting-item">
+                        <label>Text Color</label>
+                        <input type="color" id="font-color" value="#e0e0e0">
+                    </div>
+                </div>
+            </div>
+            <button id="next-btn" class="nav-btn">Next →</button>
+        </header>
+
+        <main id="content-area">
+            <h1 id="chapter-title">Loading...</h1>
+            <article id="chapter-body"></article>
+        </main>
+    </div>
+
+    <script src="reader.js"></script>
+</body>
+</html>
