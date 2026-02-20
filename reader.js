@@ -1,26 +1,29 @@
 // --- CONFIGURATION ---
-const MY_PASSWORD = "0B287101E180ACD0F2B3ACE09BEA6639EBD00AA6B16728E8251430E05971A57C";
+const HASHED_PASS = "f2c5e56e409c5a1762c95400569769395f1d4408139534606558e24c585c531d";
 let chapters = [];
 let currentIdx = 0;
 
 // --- AUTHENTICATION GATE ---
-function checkAuth() {
+async function checkAuth() {
     const sessionAuth = sessionStorage.getItem("reader_auth");
-    
-    if (sessionAuth !== "true") {
-        const pass = prompt("Enter password to read:");
-        if (pass === MY_PASSWORD) {
-            sessionStorage.setItem("reader_auth", "true");
-            return true;
-        } else {
-            alert("Wrong password.");
-            document.body.innerHTML = "<h1 style='color:white; text-align:center; margin-top:50px;'>Access Denied</h1>";
-            return false;
-        }
-    }
-    return true;
-}
+    if (sessionAuth === "true") return true;
 
+    const pass = prompt("Enter password:");
+    
+    // Convert input to Hash to compare
+    const msgUint8 = new TextEncoder().encode(pass);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+    if (hashHex === HASHED_PASS) {
+        sessionStorage.setItem("reader_auth", "true");
+        return true;
+    } else {
+        alert("Denied.");
+        return false;
+    }
+}
 // --- CORE FUNCTIONALITY ---
 
 async function loadFile() {
